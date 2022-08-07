@@ -37,7 +37,7 @@ class _DetailsState extends State<Details> {
                       subtitle: "Alphabet Inc.",
                     ),
                     CustomIcon(
-                      icon: "assets/icons/left-arrow.svg",
+                      icon: "assets/icons/more-horiz.svg",
                     ),
                   ],
                 ),
