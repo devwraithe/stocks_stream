@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stocks_stream/src/config/colors.dart';
-import 'package:stocks_stream/src/presentation/widgets/customIcon.dart';
-import 'package:stocks_stream/src/presentation/widgets/page_title.dart';
-import 'package:stocks_stream/src/presentation/widgets/stock_list_item.dart';
+import 'package:get/get.dart';
+import '../../data/models/stock_model.dart';
+import '../../data/services/stocks_service.dart';
+import '../../presentation/widgets/customIcon.dart';
+import '../../presentation/widgets/page_title.dart';
+import '../../presentation/widgets/stock_list_item.dart';
+import '../../config/colors.dart';
 import '../../config/routes.dart' as routes;
 
 class Home extends StatefulWidget {
@@ -42,59 +46,77 @@ class _HomeState extends State<Home> {
                   ],
                 ),
                 const SizedBox(height: 38),
-                StockListItem(
-                  action: () => Navigator.pushNamed(
-                    context,
-                    routes.details,
-                  ),
-                  image:
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/833px-Apple_logo_black.svg.png",
-                  shortName: "AAPL",
-                  name: "Apple, Inc.",
-                  price: "\$393.43",
-                  change: "+3.12%",
-                ),
-                const SizedBox(height: 26),
-                const StockListItem(
-                  image:
-                      "https://seeklogo.com/images/A/adobe-logo-EB46CA63ED-seeklogo.com.png",
-                  shortName: "ADBE",
-                  name: "Adobe Systems",
-                  price: "\$455.27",
-                  change: "+4.42%",
-                ),
-                const SizedBox(height: 26),
-                const StockListItem(
-                  image:
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/150px-Google_%22G%22_Logo.svg.png",
-                  shortName: "GOOGL",
-                  name: "Alphabet Inc.",
-                  price: "\$1,515.55",
-                  change: "+0.02%",
-                ),
-                const SizedBox(height: 26),
-                const StockListItem(
-                  image:
-                      "https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png",
-                  shortName: "AMZN",
-                  name: "Amazon.com Inc.",
-                  price: "\$3,196.84",
-                  change: "+0.02%",
-                ),
-                const SizedBox(height: 26),
-                const StockListItem(
-                  image:
-                      "https://www.freepnglogos.com/uploads/berkshire-hathaway-logo-png/berkshire-hathaway-logo-home-berkshire-hathaway-homeservices-new-mexico-33.png",
-                  shortName: "BRK.A",
-                  name: "Berkshire Hathaway",
-                  price: "\$190.09",
-                  change: "+0.02%",
-                ),
+                _fetchStocksData(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  final _stocksService = Get.put(StocksService());
+  bool _isLoading = true;
+  List<StockModel> _stocks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getStocks();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _getStocks() async {
+    try {
+      final result = await _stocksService.getStocksList();
+      setState(() {
+        _stocks = result;
+        _isLoading = false;
+      });
+    } catch (err) {
+      setState(() {
+        _isLoading = false;
+      });
+      printInfo(info: ">>> An Error Occured! <<<");
+    }
+  }
+
+  Widget _fetchStocksData() {
+    if (_isLoading) {
+      return const Center(
+        child: SizedBox(
+          height: 40.0,
+          width: 40.0,
+          child: CupertinoActivityIndicator(),
+        ),
+      );
+    }
+    if (_stocks.isEmpty) {
+      return const Center(
+        child: Text("No Stocks Found"),
+      );
+    }
+    return ListView.separated(
+      itemBuilder: (context, index) {
+        return StockListItem(
+          image: "https://cdn.worldvectorlogo.com/logos/tesla-motors-1.svg",
+          symbol: _stocks[index].symbol,
+          symbolColor: int.tryParse(_stocks[index].symbolColor ?? "000000"),
+          company: _stocks[index].company,
+          price: "\$${_stocks[index].price}",
+          change:
+              "${_stocks[index].status == true ? '+' : '-'}${_stocks[index].change}%",
+          changeColor:
+              _stocks[index].status == true ? SSColors.green : SSColors.red,
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 18),
+      itemCount: _stocks.length,
+      shrinkWrap: true,
     );
   }
 }

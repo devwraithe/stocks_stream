@@ -3,20 +3,24 @@ import 'package:stocks_stream/src/config/colors.dart';
 
 class StockListItem extends StatelessWidget {
   final String image;
-  final String? shortName;
-  final String? name;
+  final String? symbol;
+  final String? company;
+  final int? symbolColor;
   final String? price;
   final String? change;
   final Function()? action;
+  final Color? changeColor;
 
   const StockListItem({
     Key? key,
     required this.image,
-    this.shortName,
-    this.name,
+    this.symbol,
+    this.company,
+    this.symbolColor,
     this.price,
     this.change,
     this.action,
+    this.changeColor,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -27,37 +31,31 @@ class StockListItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: SSColors.gray,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                padding: const EdgeInsets.all(14),
-                child: Image.network(
-                  image,
-                  width: 22,
-                  height: 22,
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
-                ),
-              ),
-              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 4),
-                  Text(
-                    shortName ?? "",
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(symbolColor ?? 0XFFF5F5F5),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    padding: const EdgeInsets.fromLTRB(10, 8.5, 10, 4.5),
+                    child: Text(
+                      symbol ?? "",
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.6,
+                            color: SSColors.white,
+                          ),
+                    ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 11),
                   Text(
-                    name ?? "",
+                    company ?? "",
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
                           color: SSColors.darkGray,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                   ),
                 ],
@@ -74,12 +72,12 @@ class StockListItem extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: 3),
               Text(
                 "$change",
                 style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: SSColors.green,
-                      fontWeight: FontWeight.w700,
+                      color: changeColor ?? SSColors.green,
+                      fontWeight: FontWeight.w800,
                     ),
               ),
             ],
