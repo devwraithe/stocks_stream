@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "symbol": "NVDA",
+      "symbolColor": "0XFF5B9000",
+      "company": "NVIDIA Corporation",
+      "currency": "USD",
+      "price": 181.11,
+      "change": 7.73,
+      "status": true
+    },
+    {
+      "symbol": "WMT",
+      "symbolColor": "0XFF006CCC",
+      "company": "Walmart Inc",
+      "currency": "USD",
+      "price": 127.64,
+      "change": 0.78,
+      "status": false
+    },
+    {
+      "symbol": "GOOGL",
+      "symbolColor": "0XFFED161E",
+      "company": "Alphabet Inc Class A",
+      "currency": "USD",
+      "price": 118.74,
+      "change": 1.04,
+      "status": false
+    }
+  ]
+}
