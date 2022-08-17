@@ -75,9 +75,9 @@ class StockListItem extends StatelessWidget {
               const SizedBox(height: 3),
               Text(
                 "$change",
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: changeColor ?? SSColors.green,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
                     ),
               ),
             ],

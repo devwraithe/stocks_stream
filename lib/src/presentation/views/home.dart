@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../data/models/stock_model.dart';
 import '../../data/services/stocks_service.dart';
@@ -36,7 +37,7 @@ class _HomeState extends State<Home> {
                       size: 22,
                     ),
                     PageTitle(
-                      title: "BONDS",
+                      title: "STOCKS",
                       subtitle: "0 Items",
                     ),
                     CustomIcon(
@@ -46,7 +47,45 @@ class _HomeState extends State<Home> {
                   ],
                 ),
                 const SizedBox(height: 38),
-                _fetchStocksData(),
+                Container(
+                  decoration: BoxDecoration(
+                    color: SSColors.gray,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(22, 15, 20, 13),
+                  child: TextFormField(
+                    strutStyle: StrutStyle.disabled,
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.characters,
+                    textInputAction: TextInputAction.search,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      suffixIcon: SvgPicture.asset(
+                        "assets/icons/search.svg",
+                        color: SSColors.black,
+                      ),
+                      prefixIconColor: SSColors.white,
+                      hintText: "Search by symbol, company...",
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyText1?.copyWith(
+                                color: SSColors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                      suffixIconConstraints: const BoxConstraints(
+                        minHeight: 24,
+                        minWidth: 24,
+                      ),
+                    ),
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          color: SSColors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+                const SizedBox(height: 34),
+                const FetchStocks(),
               ],
             ),
           ),
@@ -54,7 +93,16 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
 
+// display the stocks list
+class FetchStocks extends StatefulWidget {
+  const FetchStocks({Key? key}) : super(key: key);
+  @override
+  _FetchStocksState createState() => _FetchStocksState();
+}
+
+class _FetchStocksState extends State<FetchStocks> {
   final _stocksService = Get.put(StocksService());
   bool _isLoading = true;
   List<StockModel> _stocks = [];
@@ -81,42 +129,51 @@ class _HomeState extends State<Home> {
       setState(() {
         _isLoading = false;
       });
-      printInfo(info: ">>> An Error Occured! <<<");
+      printInfo(info: ">>> An Error Occured <<<");
     }
   }
 
-  Widget _fetchStocksData() {
-    if (_isLoading) {
-      return const Center(
-        child: SizedBox(
-          height: 40.0,
-          width: 40.0,
-          child: CupertinoActivityIndicator(),
-        ),
-      );
-    }
-    if (_stocks.isEmpty) {
-      return const Center(
-        child: Text("No Stocks Found"),
-      );
-    }
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return StockListItem(
-          image: "https://cdn.worldvectorlogo.com/logos/tesla-motors-1.svg",
-          symbol: _stocks[index].symbol,
-          symbolColor: int.tryParse(_stocks[index].symbolColor ?? "000000"),
-          company: _stocks[index].company,
-          price: "\$${_stocks[index].price}",
-          change:
-              "${_stocks[index].status == true ? '+' : '-'}${_stocks[index].change}%",
-          changeColor:
-              _stocks[index].status == true ? SSColors.green : SSColors.red,
-        );
-      },
-      separatorBuilder: (context, index) => const SizedBox(height: 18),
-      itemCount: _stocks.length,
-      shrinkWrap: true,
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: _isLoading
+          ? const Center(
+              child: SizedBox(
+                height: 40.0,
+                width: 40.0,
+                child: CupertinoActivityIndicator(),
+              ),
+            )
+          : _stocks.isEmpty
+              ? const Center(
+                  child: Text("No Stocks Found"),
+                )
+              : ListView.separated(
+                  itemBuilder: (context, index) {
+                    return StockListItem(
+                      image:
+                          "https://cdn.worldvectorlogo.com/logos/tesla-motors-1.svg",
+                      symbol: _stocks[index].symbol,
+                      symbolColor:
+                          int.tryParse(_stocks[index].symbolColor ?? "000000"),
+                      company: _stocks[index].company,
+                      price: "\$${_stocks[index].price}",
+                      change:
+                          "${_stocks[index].status == true ? '+' : '-'}${_stocks[index].change}%",
+                      changeColor: _stocks[index].status == true
+                          ? SSColors.green
+                          : SSColors.red,
+                      action: () => Get.toNamed(
+                        routes.stockDetails,
+                        arguments: {"symbol": _stocks[index].symbol},
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 18),
+                  itemCount: _stocks.length,
+                  shrinkWrap: true,
+                ),
     );
   }
 }

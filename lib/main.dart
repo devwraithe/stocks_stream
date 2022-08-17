@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stocks_stream/src/config/colors.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'src/config/colors.dart';
 import 'src/presentation/views/home.dart';
 import "src/config/routes.dart" as routes;
 
@@ -20,7 +21,7 @@ class StockStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Stocks Stream',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
