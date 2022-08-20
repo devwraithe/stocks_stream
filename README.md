@@ -1,4 +1,4 @@
-# Stocks Stream - Stream the stock market
+# stocks_stream
 
 A new Flutter project.
 
