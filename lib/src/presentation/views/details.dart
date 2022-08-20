@@ -1,8 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stocks_stream/src/config/colors.dart';
 import 'package:stocks_stream/src/presentation/widgets/chart_time_interval.dart';
-import 'package:stocks_stream/src/presentation/widgets/customIcon.dart';
+import 'package:stocks_stream/src/presentation/widgets/custom_icon.dart';
 import 'package:stocks_stream/src/presentation/widgets/main_chart_data.dart';
 import 'package:stocks_stream/src/presentation/widgets/page_title.dart';
 
@@ -33,15 +34,18 @@ class _StockDetailsState extends State<StockDetails> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    CustomIcon(
-                      icon: "assets/icons/left-arrow.svg",
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: const CustomIcon(
+                        icon: "assets/icons/left-arrow.svg",
+                      ),
                     ),
-                    PageTitle(
+                    const PageTitle(
                       title: "GOOGL",
                       subtitle: "Alphabet Inc.",
                     ),
-                    CustomIcon(
+                    const CustomIcon(
                       icon: "assets/icons/more-horiz.svg",
                     ),
                   ],

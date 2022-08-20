@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../data/models/stock_model.dart';
 import '../../data/services/stocks_service.dart';
-import '../../presentation/widgets/customIcon.dart';
+import '../widgets/custom_icon.dart';
 import '../../presentation/widgets/page_title.dart';
 import '../../presentation/widgets/stock_list_item.dart';
 import '../../config/colors.dart';
