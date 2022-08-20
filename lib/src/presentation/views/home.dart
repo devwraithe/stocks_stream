@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../data/models/stock_model.dart';
 import '../../data/services/stocks_service.dart';
-import '../../presentation/widgets/customIcon.dart';
+import '../widgets/custom_icon.dart';
 import '../../presentation/widgets/page_title.dart';
 import '../../presentation/widgets/stock_list_item.dart';
 import '../../config/colors.dart';
@@ -34,15 +34,13 @@ class _HomeState extends State<Home> {
                   children: const [
                     CustomIcon(
                       icon: "assets/icons/left-arrow.svg",
-                      size: 22,
                     ),
                     PageTitle(
                       title: "STOCKS",
                       subtitle: "0 Items",
                     ),
                     CustomIcon(
-                      icon: "assets/icons/search.svg",
-                      size: 22,
+                      icon: "assets/icons/more-horiz.svg",
                     ),
                   ],
                 ),
