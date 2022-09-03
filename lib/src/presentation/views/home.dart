@@ -38,15 +38,15 @@ class _HomeState extends ConsumerState<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    CustomIcon(
+                  children: [
+                    const CustomIcon(
                       icon: "assets/icons/left-arrow.svg",
                     ),
                     PageTitle(
                       title: "STOCKS",
-                      subtitle: "0 Items",
+                      subtitle: "${_stocks.length} Items",
                     ),
-                    CustomIcon(
+                    const CustomIcon(
                       icon: "assets/icons/more-horiz.svg",
                     ),
                   ],
