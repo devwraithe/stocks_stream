@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:get/get_navigation/get_navigation.dart';
 import 'src/config/colors.dart';
 import 'src/presentation/views/home.dart';
 import "src/config/routes.dart" as routes;
@@ -12,7 +13,9 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   runApp(
-    const StockStream(),
+    const ProviderScope(
+      child: StockStream(),
+    ),
   );
 }
 
@@ -21,7 +24,7 @@ class StockStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'Stocks Stream',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
