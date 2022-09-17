@@ -22,7 +22,6 @@ Stock Stream is a mock mobile application to show data from the stock market. Bu
 ## :pushpin: Dependencies
 
 - flutter_svg: ^1.0.3
-- get: ^4.6.5
 - http: ^0.13.5
 - equatable: ^2.0.5
 - dartz: ^0.10.1
